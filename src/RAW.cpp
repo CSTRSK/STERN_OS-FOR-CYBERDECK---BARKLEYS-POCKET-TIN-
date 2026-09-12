@@ -7,12 +7,9 @@
 
 extern TFT_eSPI tft;
 
-// =============================================
-// НАСТРОЙКИ (меняйте их для подбора цветов)
-// =============================================
-#define COLOR_MODE 0   // 0..5 (перестановка каналов)
-#define SWAP_BYTES 1   // 0 = выкл, 1 = вкл (меняет байты местами в 16-битном слове)
-// =============================================
+
+#define COLOR_MODE 0   
+#define SWAP_BYTES 1  
 
 static const uint8_t perm[6][3] = {
     {0,1,2}, // RGB
@@ -62,7 +59,7 @@ static bool displayRAWFile(const char* filename) {
 }
 
 bool showRAWImage(const char* filename) {
-    // Показываем начальное изображение
+   
     if (!displayRAWFile(filename)) {
         tft.fillScreen(TFT_BLACK);
         tft.setTextColor(TFT_WHITE, TFT_BLACK);
@@ -72,17 +69,17 @@ bool showRAWImage(const char* filename) {
         return false;
     }
 
-    // Цикл ожидания клавиш с навигацией
+    
     while (true) {
         KeyCode key = Keypad.getKey();
         if (key == KEY_ESC) break;
 
-        // Навигация: Z – влево, C – вправо
+      
         if (key == KEY_Z) {
             if (selectedIndex > 0) {
                 selectedIndex--;
                 String newFile = fileList[selectedIndex];
-                // Проверяем расширение – открываем только .raw
+          
                 if (newFile.endsWith(".raw") || newFile.endsWith(".RAW")) {
                     tft.fillScreen(TFT_BLACK);
                     displayRAWFile(newFile.c_str());

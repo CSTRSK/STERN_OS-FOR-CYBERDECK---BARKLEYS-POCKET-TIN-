@@ -6,7 +6,7 @@
 extern Adafruit_SSD1306 display;
 
 void runDinoGame() {
-    // ---------- Ваши параметры (не тронуты) ----------
+
     const int GROUND_Y = 30;
     const int DINO_W = 6;
     const int DINO_H = 10;
@@ -17,10 +17,10 @@ void runDinoGame() {
     const int OBSTACLE_H = 5;
     const int MAX_JUMPS = 2;
 
-    // ---------- ИЗМЕНЕНО: интервал уменьшен, чтобы препятствия были чаще ----------
-    const int MIN_OBSTACLE_INTERVAL = 30;   // было 80 – теперь чаще
 
-    // ---------- Система уровней (без изменений) ----------
+    const int MIN_OBSTACLE_INTERVAL = 30;   
+
+
     int level = 1;
     float obstacleSpeed = 1.0;
     unsigned long levelStartTime = millis();
@@ -40,12 +40,11 @@ void runDinoGame() {
     int score = 0;
     bool gameOver = false;
 
-    // ---------- НОВОЕ: принудительно создаём первое препятствие сразу ----------
-    // Устанавливаем счётчик так, чтобы на первом же кадре сгенерировалось препятствие
+    
     frameCounter = MIN_OBSTACLE_INTERVAL;
 
     while (!gameOver) {
-        // ---- Ввод ----
+
         KeyCode code = Keypad.getKey();
         if (code != KEY_NONE && jumpsLeft > 0) {
             dinoVy = JUMP_SPEED;
@@ -53,7 +52,7 @@ void runDinoGame() {
             jumpsLeft--;
         }
 
-        // ---- Физика ----
+  
         dinoVy += GRAVITY;
         dinoY += dinoVy;
         if (dinoY >= GROUND_Y - DINO_H) {
@@ -63,7 +62,6 @@ void runDinoGame() {
             jumpsLeft = MAX_JUMPS;
         }
 
-        // ---- Генерация препятствий (теперь сработает сразу) ----
         frameCounter++;
         if (frameCounter >= MIN_OBSTACLE_INTERVAL && obstacleCount < 3) {
             if (random(0, 100) < 30) {
@@ -75,12 +73,11 @@ void runDinoGame() {
             frameCounter = 0;
         }
 
-        // ---- Движение препятствий (с переменной скоростью) ----
         for (int i = 0; i < obstacleCount; i++) {
             obstacles[i].x -= (int)obstacleSpeed;
         }
 
-        // ---- Удаление вышедших ----
+
         int newCount = 0;
         for (int i = 0; i < obstacleCount; i++) {
             if (obstacles[i].x + obstacles[i].w > 0) {
@@ -90,7 +87,7 @@ void runDinoGame() {
         }
         obstacleCount = newCount;
 
-        // ---- Столкновения ----
+
         int dinoY_int = (int)dinoY;
         for (int i = 0; i < obstacleCount; i++) {
             int ox = obstacles[i].x;
@@ -106,7 +103,7 @@ void runDinoGame() {
 
         if (!gameOver) score++;
 
-        // ---- Повышение уровня (каждую минуту) ----
+
         unsigned long now = millis();
         if (now - levelStartTime >= LEVEL_DURATION) {
             if (level < MAX_LEVEL) {
@@ -116,7 +113,7 @@ void runDinoGame() {
             levelStartTime = now;
         }
 
-        // ---- Отрисовка ----
+
         display.clearDisplay();
         display.drawLine(0, GROUND_Y, 127, GROUND_Y, SSD1306_WHITE);
         display.fillRect(DINO_X, (int)dinoY, DINO_W, DINO_H, SSD1306_WHITE);
