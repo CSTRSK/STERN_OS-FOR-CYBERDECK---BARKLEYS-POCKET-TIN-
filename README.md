@@ -4,7 +4,7 @@
 
 * **Schematic & PCB (EasyEDA):** https://oshwlab.com/dmitriyshalagurov/project_itafwezn
 * **GitHub Repository:** https://github.com/DmitriyShalagurov/STERN_OS-FOR-CYBERDECK---BARKLEYS-POCKET-TIN-
-
+* **Build Video:** https://youtu.be/xNvaoZqZ404
 ---
 
 ## Project
