@@ -179,74 +179,12 @@ An experimental NES emulator running on the ESP32.
 * USB Type-C cable
 * STERN OS source code
 
-## Building the Firmware
-
 Clone the repository:
 
 ```bash
 git clone https://github.com/DmitriyShalagurov/STERN_OS-FOR-CYBERDECK---BARKLEYS-POCKET-TIN-.git
 ```
 
-Open the project in **Visual Studio Code** with the **PlatformIO** extension installed.
-Build the project:
-
-```bash
-pio run
-```
-
-Upload the firmware:
-
-```bash
-pio run --target upload
-```
-
-## Or use the **Build** and **Upload** buttons inside PlatformIO in Visual Studio Code.
-
-# Hardware Files
-
-Hardware design files will be stored separately from the firmware.
-
-```text
-hardware/
-├── schematic/
-├── pcb/
-├── gerbers/
-└── bom/
-```
-
-### Schematic
-
-Original schematic source files:
-
-```text
-hardware/schematic/
-```
-
-### PCB
-
-Editable PCB source files:
-
-```text
-hardware/pcb/
-```
-
-### Gerber Files
-
-Manufacturing files:
-
-```text
-hardware/gerbers/
-```
-
-### BOM
-
-Bill of Materials:
-
-```text
-hardware/bom/
-```
-
----
 
 # Bill of Materials
 
