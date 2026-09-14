@@ -117,28 +117,6 @@ STERN OS is developed using:
   The project is organized into multiple modules rather than keeping the entire operating system inside one source file.
 
 ---
-
-# Project Structure
-
-```text
-RETRO_SHL_OS_V1.0/
-├── src/
-├── include/
-├── lib/
-├── test/
-├── platformio.ini
-├── hardware/
-│   ├── schematic/
-│   ├── pcb/
-│   ├── gerbers/
-│   └── bom/
-├── docs/
-│   └── images/
-└── README.md
-```
-
----
-
 # Applications
 
 ## Terminal
