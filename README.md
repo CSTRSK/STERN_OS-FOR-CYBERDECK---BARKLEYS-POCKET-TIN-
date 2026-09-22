@@ -45,14 +45,12 @@ The entire project is built from scratch — including the electronics, custom P
 
 ## Main Controller
 
-**ESP32-WROOM / ESP32-DevKitC-32**
+* **ESP32-WROOM / ESP32-DevKitC-32**: Standard Dual-Core ESP32 (4MB Flash).
+* **ESP32-WROVER**: Dual-Core ESP32 mit 4MB/8MB PSRAM für erweiterte Emulation.
+* **ESP32-S3**: Dual-Core Xtensa LX7 mit USB-OTG/CDC & PSRAM (z.B. LilyGO T-Deck / Cardputer).
+* **ESP32-C3**: Kompakter RISC-V Single-Core Controller.
 
-* Dual-core ESP32
-* Wi-Fi
-* Bluetooth
-* USB Type-C
-* CH340C USB-to-serial interface
-  The ESP32 is the main processor responsible for running STERN OS and controlling the display, keyboard and peripherals.
+Das System passt seine Pin-Mappings und Speicherverwaltung über `include/hardware_config.h` automatisch an den gewählten Chip an.
 
 ## Custom Keyboard
 
@@ -65,12 +63,14 @@ The keyboard uses a dedicated **TCA8418RTWR — TCA8418** keyboard controller.
   Each key uses a **1N4148 SOD-323** diode.
 
 ## Display
-
-The project uses a compact **2.4-inch TFT display** with an SPI interface.
-The display module is based on an **ST7735 / ST7789** controller depending on the exact module revision.
-Typical resolution:
-
-* 240 × 320
+ 
+ Das System unterstützt verschiedene Display-Controller und Auflösungen über `include/display_config.h`:
+ * **ST7789**: 240 × 320 (Querformat: 320 × 240) & 240 × 240
+ * **ST7735**: 128 × 160 & 128 × 128 (sehr kompakte Mini-Cyberdecks)
+ * **ILI9341**: 320 × 240 & 240 × 320
+ * **SSD1306**: 128 × 64 (OLED-Modus) & 128 × 32 (sekundäres Status-OLED)
+ 
+ Alle UI-Elemente berechnen ihre Position dynamisch relativ zur tatsächlichen Bildschirmgröße.
 
 ## Power System
 
@@ -120,9 +120,13 @@ STERN OS is developed using:
 ---
 # Applications
 
-## Terminal
+## Terminal & Linux POSIX Shell
 
-A built-in terminal interface for interacting with the system and accessing custom commands.
+Das Terminal bietet eine vollständige Linux-artige Shell (`root@stern:~# `) mit Verzeichnis-Navigation, Redirection (`>`) und Standard-Tools:
+* **Dateisystem:** `cd <dir>`, `pwd`, `ls [-l]`, `cat <file>`, `touch <file>`, `mkdir <dir>`, `rm <file>`, `rmdir <dir>`, `cp <src> <dst>`, `mv <src> <dst>`, `grep <pattern> <file>`, `head <file>`, `df -h`
+* **System:** `uname -a`, `uptime`, `free -h`, `ps` / `top`, `whoami`, `date`, `reboot`, `clear`
+* **Netzwerk:** `ifconfig`, `scan` (WLAN-Scan), `wifi connect <ssid> <pass>`, `ping <host>`, `wget <url> [file]`, `curl <url>`
+* **Shell & Skripte:** Redirection (`echo "Text" > file.txt`), Ausführen von Shell-Skripten (`sh script.sh`), Hilfe (`help`, `man <cmd>`)
 
 ## File Browser
 
@@ -140,13 +144,23 @@ A playable implementation of Conway's Game of Life.
 
 A small built-in arcade game.
 
-## NES Emulator
-
-An experimental NES emulator running on the ESP32.
-
-## Settings
-
-## System settings are managed through a dedicated graphical settings interface.
+## Multi-Emulator System
+ 
+ STERN OS enthält ein modulares Emulator-Framework mit einheitlicher Steuerung und Launcher:
+ * **NES (Nintendo Entertainment System)**: Lädt `.nes`-ROMs (`nes`-Befehl oder über Dateibrowser).
+ * **Game Boy (DMG / Peanut-GB)**: Lädt `.gb`-ROMs (`gb`-Befehl oder über Dateibrowser).
+ * **CHIP-8 / SuperChip**: Ultra-kompakter Emulator mit vorinstallierten Retro-Klassikern im Flash (z.B. Pong, Brix) sowie Unterstützung für `.ch8`-Dateien (`chip8`-Befehl).
+ * **Universelles Spielemenü**: Aufrufbar über `emu` oder `games`.
+ 
+ ### Einheitliche Emulator-Steuerung:
+ * **D-Pad (Richtung):** `S` (Oben), `X` (Unten), `Z` (Links), `C` (Rechts)
+ * **Aktionstasten:** `;` (A), `?` (B)
+ * **System:** `Space` (Start), `Enter` (Select)
+ * **Beenden / Zurück:** `ESC`
+ 
+ ## Settings
+ 
+ System settings are managed through a dedicated graphical settings interface (`gui`).
 
 # Getting Started
 
